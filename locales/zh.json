@@ -1,0 +1,50 @@
+{
+  "title": "提词器",
+  "HomeScreen": {
+    "TextField_hintText": "在此输入文本...",
+    "ElevatedButton_Start": "开始",
+    "ElevatedButton_Select": "选择文件",
+    "ElevatedButton_Save": "保存",
+    "BottomSheet": {
+      "Text_Title": "保存脚本",
+      "TextField_hintText": "输入脚本标题",
+      "ElevatedButton_Save": "保存"
+    },
+    "IconButton_Settings": "设置",
+    "IconButton_SourceCode": "源代码",
+    "IconButton_SourceCode_Copied": "源代码链接已复制！",
+    "IconButton_About": "关于"
+  },
+  "OpenFileScreen": {
+    "title": "打开文件",
+    "ElevatedButton_Select": "选择文件",
+    "ListTile_Delete": "删除",
+    "if_empty": "还没有保存的脚本。创建一个新脚本或选择一个文件开始！"
+  },
+  "SettingsScreen": {
+    "title": "设置",
+    "DropdownAppSetting_DefaultLanguage": "语言",
+    "NumberAppSetting_DefaultScrollSpeed": "默认滚动速度",
+    "NumberAppSetting_DefaultScrollSpeed_Unit": "行/秒",
+    "NumberAppSetting_DefaultFontSize": "默认字体大小",
+    "NumberAppSetting_DefaultFontSize_Unit": "磅",
+    "DropdownAppSetting_DefaultTextAlignment": "默认文本对齐",
+    "DropdownAppSetting_DefaultTextAlignment_Unit": {
+      "Left": "左对齐",
+      "Center": "居中",
+      "Right": "右对齐",
+      "Justified": "两端对齐"
+    },
+    "DropdownAppSetting_DefaultFontFamily": "默认字体",
+    "BooleanAppSetting_DefaultFlipX": "水平镜像",
+    "BooleanAppSetting_DefaultFlipY": "垂直镜像",
+    "BooleanAppSetting_ReadingIndicatorBoxes": "显示阅读指示器",
+    "NumberAppSetting_ReadingIndicatorBoxes": "阅读指示器高度",
+    "NumberAppSetting_ReadingIndicatorBoxes_Unit": "%",
+    "NumberAppSetting_SideMargin": "侧边距",
+    "NumberAppSetting_SideMargin_Unit": "%",
+    "NumberAppSetting_CountdownTimer": "倒计时时长",
+    "NumberAppSetting_CountdownTimer_Unit": "秒",
+    "ListTile_Reset": "重置设置"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "title": "Teleprompter",
+  "HomeScreen": {
+    "TextField_hintText": "Enter your text here...",
+    "ElevatedButton_Start": "Start",
+    "ElevatedButton_Select": "Select File",
+    "ElevatedButton_Save": "Save",
+    "BottomSheet": {
+      "Text_Title": "Save Script",
+      "TextField_hintText": "Enter script title",
+      "ElevatedButton_Save": "Save"
+    },
+    "IconButton_Settings": "Settings",
+    "IconButton_SourceCode": "Source Code",
+    "IconButton_SourceCode_Copied": "Source code URL copied!",
+    "IconButton_About": "About"
+  },
+  "OpenFileScreen": {
+    "title": "Open File",
+    "ElevatedButton_Select": "Select File",
+    "ListTile_Delete": "Delete",
+    "if_empty": "No saved scripts yet. Create one or select a file to get started!"
+  },
+  "SettingsScreen": {
+    "title": "Settings",
+    "DropdownAppSetting_DefaultLanguage": "Language",
+    "NumberAppSetting_DefaultScrollSpeed": "Default Scroll Speed",
+    "NumberAppSetting_DefaultScrollSpeed_Unit": "lines/s",
+    "NumberAppSetting_DefaultFontSize": "Default Font Size",
+    "NumberAppSetting_DefaultFontSize_Unit": "pt",
+    "DropdownAppSetting_DefaultTextAlignment": "Default Text Alignment",
+    "DropdownAppSetting_DefaultTextAlignment_Unit": {
+      "Left": "Left",
+      "Center": "Center",
+      "Right": "Right",
+      "Justified": "Justified"
+    },
+    "DropdownAppSetting_DefaultFontFamily": "Default Font",
+    "BooleanAppSetting_DefaultFlipX": "Mirror Horizontally",
+    "BooleanAppSetting_DefaultFlipY": "Mirror Vertically",
+    "BooleanAppSetting_ReadingIndicatorBoxes": "Show Reading Indicator",
+    "NumberAppSetting_ReadingIndicatorBoxes": "Reading Indicator Height",
+    "NumberAppSetting_ReadingIndicatorBoxes_Unit": "%",
+    "NumberAppSetting_SideMargin": "Side Margin",
+    "NumberAppSetting_SideMargin_Unit": "%",
+    "NumberAppSetting_CountdownTimer": "Countdown Duration",
+    "NumberAppSetting_CountdownTimer_Unit": "s",
+    "ListTile_Reset": "Reset Settings"
+  }
+}

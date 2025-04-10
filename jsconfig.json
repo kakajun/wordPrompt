@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES6", // 确保 TypeScript 编译器支持 ES6
+    "module": "ESNext",
+    "strict": true,
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "pages/*": ["./pages/*"],
+      "stores/*": ["./stores/*"],
+      "static/*": ["./static/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}
