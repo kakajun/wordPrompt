@@ -13,13 +13,14 @@
     "IconButton_Settings": "Settings",
     "IconButton_SourceCode": "Source Code",
     "IconButton_SourceCode_Copied": "Source code URL copied!",
-    "IconButton_About": "About"
+    "IconButton_About": "About",
+    "Text_Saved": "Saved!"
   },
   "OpenFileScreen": {
     "title": "Open File",
     "ElevatedButton_Select": "Select File",
     "ListTile_Delete": "Delete",
-    "if_empty": "No saved scripts yet. Create one or select a file to get started!"
+    "if_empty": "No saved prompts yet."
   },
   "SettingsScreen": {
     "title": "Settings",

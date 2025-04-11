@@ -13,13 +13,14 @@
     "IconButton_Settings": "设置",
     "IconButton_SourceCode": "源代码",
     "IconButton_SourceCode_Copied": "源代码链接已复制！",
-    "IconButton_About": "关于"
+    "IconButton_About": "关于",
+    "Text_Saved": "提示词已保存！"
   },
   "OpenFileScreen": {
     "title": "打开文件",
     "ElevatedButton_Select": "选择文件",
     "ListTile_Delete": "删除",
-    "if_empty": "还没有保存的脚本。创建一个新脚本或选择一个文件开始！"
+    "if_empty": "还没有保存提示词。"
   },
   "SettingsScreen": {
     "title": "设置",

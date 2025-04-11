@@ -1,9 +1,16 @@
 <template>
   <view class="home-screen">
+    <u-toast ref="uToast1" />
     <view class="input-area">
-      <textarea
+      <u-input
+        type="textarea"
         v-model="scriptText"
+        clearable
         :maxlength="99999"
+        adjust-position
+        border
+        :auto-height="false"
+        height="1200"
         :placeholder="$t('HomeScreen.TextField_hintText')"
         class="script-input"
       />
@@ -26,9 +33,7 @@
         <view @tap="goToSettings">
           <uni-icons type="gear" size="24" />
         </view>
-        <view @tap="openSourceCode">
-          <uni-icons type="code" size="24" />
-        </view>
+
         <view @tap="showAboutDialog">
           <uni-icons type="info" size="24" />
         </view>
@@ -37,84 +42,69 @@
   </view>
 </template>
 
-<script>
-import { ref, onMounted } from 'vue'
+<script setup>
+import { ref, onMounted, watch, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useScriptStore } from '@/stores/script'
 import { kApplicationVersion } from '@/core/constants.js'
-export default {
-  setup() {
-    const { t } = useI18n()
-    const scriptStore = useScriptStore()
-    const scriptText = ref('')
 
-    onMounted(() => {
-      scriptText.value = scriptStore.text
-    })
+const { t } = useI18n()
+const scriptStore = useScriptStore()
+const scriptText = ref('')
+const uToast1 = ref(null)
+onMounted(() => {
+  scriptText.value = scriptStore.text
+})
 
-    const startPrompter = () => {
-      scriptStore.setText(scriptText.value)
-      uni.navigateTo({
-        url: '/pages/prompter/prompter'
-      })
+const storeText = computed(() => scriptStore.text)
+watch(storeText, newValue => {
+  scriptText.value = newValue
+})
+
+const startPrompter = () => {
+  scriptStore.setText(scriptText.value)
+  uni.navigateTo({
+    url: '/pages/prompter/prompter'
+  })
+}
+
+const openFile = () => {
+  uni.navigateTo({
+    url: '/pages/open-file/open-file'
+  })
+}
+
+const showSaveDialog = () => {
+  scriptStore.setText(scriptText.value)
+  uni.showModal({
+    title: t('HomeScreen.BottomSheet.Text_Title'),
+    editable: true,
+    placeholderText: t('HomeScreen.BottomSheet.TextField_hintText'),
+    success: res => {
+      if (res.confirm && res.content) {
+        uToast1.value.show({
+          title: t('HomeScreen.Text_Saved'),
+          type: 'success'
+        })
+        scriptStore.setTitle(res.content)
+        scriptStore.saveScript()
+      }
     }
+  })
+}
 
-    const openFile = () => {
-      uni.navigateTo({
-        url: '/pages/open-file/open-file'
-      })
-    }
+const goToSettings = () => {
+  uni.navigateTo({
+    url: '/pages/settings/settings'
+  })
+}
 
-    const showSaveDialog = () => {
-      uni.showModal({
-        title: t('HomeScreen.BottomSheet.Text_Title'),
-        editable: true,
-        placeholderText: t('HomeScreen.BottomSheet.TextField_hintText'),
-        success: res => {
-          if (res.confirm && res.content) {
-            scriptStore.setTitle(res.content)
-            scriptStore.saveScript()
-          }
-        }
-      })
-    }
-
-    const goToSettings = () => {
-      uni.navigateTo({
-        url: '/pages/settings/settings'
-      })
-    }
-
-    const openSourceCode = () => {
-      uni.setClipboardData({
-        data: 'https://github.com/tiefseetauchner/tiefprompt',
-        success: () => {
-          uni.showToast({
-            title: t('HomeScreen.IconButton_SourceCode_Copied'),
-            icon: 'success'
-          })
-        }
-      })
-    }
-
-    const showAboutDialog = () => {
-      uni.showModal({
-        title: t('HomeScreen.IconButton_About'),
-        content: `WordPrompt ${kApplicationVersion}`,
-        showCancel: false
-      })
-    }
-
-    return {
-      scriptText,
-      startPrompter,
-      openFile,
-      showSaveDialog,
-      goToSettings,
-      openSourceCode,
-      showAboutDialog
-    }
-  }
+const showAboutDialog = () => {
+  uni.showModal({
+    title: t('HomeScreen.IconButton_About'),
+    content: `WordPrompt ${kApplicationVersion}`,
+    showCancel: false
+  })
 }
 </script>
 
@@ -129,10 +119,6 @@ export default {
 
 .script-input {
   width: 100%;
-  height: 800rpx;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-  border-radius: 8rpx;
   padding: 16rpx;
 }
 
