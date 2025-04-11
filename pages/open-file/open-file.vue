@@ -1,27 +1,19 @@
 <template>
   <view class="open-file-screen">
     <view class="button-container">
-      <button @tap="selectFile" type="primary">
+      <u-button @click="selectFile">
         {{ $t('OpenFileScreen.ElevatedButton_Select') }}
-      </button>
+      </u-button>
     </view>
 
     <view class="file-list" v-if="scripts.length > 0">
-      <view
-        v-for="script in scripts"
-        :key="script.id"
-        class="file-item"
-      >
+      <view v-for="script in scripts" :key="script.id" class="file-item">
         <view class="file-info" @tap="loadScript(script.id)">
           <text class="file-title">{{ script.title }}</text>
           <text class="file-date">{{ script.createdAt }}</text>
         </view>
         <view class="file-actions">
-          <uni-icons
-            type="trash"
-            size="24"
-            @tap="deleteScript(script.id)"
-          />
+          <uni-icons type="trash" size="24" @tap="deleteScript(script.id)" />
         </view>
       </view>
     </view>
@@ -34,65 +26,51 @@
   </view>
 </template>
 
-<script>
+<script setup>
 import { ref, onMounted } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { useScriptStore } from '@/stores/script'
 
-export default {
-  setup() {
-    const { t } = useI18n()
-    const scriptStore = useScriptStore()
-    const scripts = ref([])
+const scriptStore = useScriptStore()
+const scripts = ref([])
 
-    onMounted(async () => {
-      loadScripts()
+onMounted(async () => {
+  loadScripts()
+})
+
+const loadScripts = async () => {
+  scripts.value = await scriptStore.getScripts()
+}
+
+const selectFile = async () => {
+  try {
+    const [fileInfo] = await uni.chooseFile({
+      count: 1,
+      extension: ['.txt']
     })
 
-    const loadScripts = async () => {
-      scripts.value = await scriptStore.getScripts()
-    }
+    if (fileInfo) {
+      const fileContent = await uni
+        .getFileSystemManager()
+        .readFileSync(fileInfo.path, 'utf8')
 
-    const selectFile = async () => {
-      try {
-        const [fileInfo] = await uni.chooseFile({
-          count: 1,
-          extension: ['.txt']
-        })
-
-        if (fileInfo) {
-          const fileContent = await uni.getFileSystemManager().readFileSync(
-            fileInfo.path,
-            'utf8'
-          )
-
-          scriptStore.setText(fileContent)
-          scriptStore.setTitle(fileInfo.name)
-          uni.navigateBack()
-        }
-      } catch (error) {
-        console.error('File selection error:', error)
-      }
-    }
-
-    const loadScript = async (scriptId) => {
-      const content = await scriptStore.loadScript(scriptId)
-      scriptStore.setText(content)
+      scriptStore.setText(fileContent)
+      scriptStore.setTitle(fileInfo.name)
       uni.navigateBack()
     }
-
-    const deleteScript = async (scriptId) => {
-      await scriptStore.deleteScript(scriptId)
-      loadScripts()
-    }
-
-    return {
-      scripts,
-      selectFile,
-      loadScript,
-      deleteScript
-    }
+  } catch (error) {
+    console.error('File selection error:', error)
   }
+}
+
+const loadScript = async scriptId => {
+  const content = await scriptStore.loadScript(scriptId)
+  scriptStore.setText(content)
+  uni.navigateBack()
+}
+
+const deleteScript = async scriptId => {
+  await scriptStore.deleteScript(scriptId)
+  loadScripts()
 }
 </script>
 
@@ -122,6 +100,9 @@ export default {
 
 .file-info {
   flex: 1;
+  display: flex;
+  justify-content: space-between;
+  padding-right: 10rpx;
 }
 
 .file-title {

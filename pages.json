@@ -21,7 +21,7 @@
     {
       "path": "pages/open-file/open-file",
       "style": {
-        "navigationBarTitleText": "打开文件"
+        "navigationBarTitleText": "选择提示词"
       }
     }
   ],
