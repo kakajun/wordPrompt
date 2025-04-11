@@ -32,7 +32,7 @@
       <view class="settings-item">
         <text>{{ $t('SettingsScreen.NumberAppSetting_DefaultFontSize') }}</text>
         <slider
-         style="width: 50%"
+          style="width: 50%"
           :value="settings.fontSize"
           :min="12"
           :max="420"
@@ -89,7 +89,7 @@
           $t('SettingsScreen.NumberAppSetting_ReadingIndicatorBoxes')
         }}</text>
         <slider
-         style="width: 50%"
+          style="width: 50%"
           :value="settings.readingIndicatorBoxesHeight"
           :min="0"
           :max="100"
@@ -102,7 +102,7 @@
       <view class="settings-item">
         <text>{{ $t('SettingsScreen.NumberAppSetting_SideMargin') }}</text>
         <slider
-         style="width: 50%"
+          style="width: 50%"
           :value="settings.sideMargin"
           :min="0"
           :max="99"
@@ -115,7 +115,7 @@
       <view class="settings-item">
         <text>{{ $t('SettingsScreen.NumberAppSetting_CountdownTimer') }}</text>
         <slider
-         style="width: 50%"
+          style="width: 50%"
           :value="settings.countdownDuration"
           :min="0"
           :max="60"
@@ -143,7 +143,6 @@ export default {
     const { t, locale } = useI18n()
     const settingsStore = useSettingsStore()
     const settings = ref(settingsStore.$state)
-    debugger
     const languages = kSupportedLocales.map(l => l[0])
     const languagesValues = kSupportedLocales.map(l => l[1])
     const currentLanguageIndex = computed(() => {
@@ -240,7 +239,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .settings-screen {
   padding: 32rpx;
 }

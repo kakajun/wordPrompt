@@ -1,42 +1,87 @@
 <template>
-  <view class="prompter-screen" @tap="toggleControls">
-    <view class="text-container" :style="containerStyle">
-      <scroll-view
-        :scroll-y="true"
-        :scroll-top="scrollTop"
-        class="scrollable-text"
-        :style="textStyle"
-      >
-        <text>{{ scriptText }}</text>
-      </scroll-view>
-    </view>
-
-    <view class="reading-indicator" v-if="displayReadingIndicator">
-      <view class="indicator-box" :style="indicatorStyle" />
-    </view>
-
-    <view class="controls" v-if="controlsVisible">
-      <view v-for="btn in btns" :key="btn.action">
-        <u-button
-          type="primary"
-          size="mini"
-          shape="circle"
-          @click="handleIconClick(btn.action)"
-          customStyle="background: transparent; border: none; padding: 0;"
+  <view class="prompter-screen">
+    <view @tap="toggleControls">
+      <view class="text-container" :style="containerStyle">
+        <scroll-view
+          :scroll-y="true"
+          :scroll-top="scrollTop"
+          class="scrollable-text"
+          :style="textStyle"
+          style="height: calc(100vh - 63px)"
         >
-        <u-icon v-if='btn.action=="play"' :name="isPlaying ? 'pause' : 'play-right-fill'" size="30"></u-icon>
-          <u-icon v-else :name="btn.icon" size="30"></u-icon>
-        </u-button>
+          <text>{{ scriptText }}</text>
+        </scroll-view>
+      </view>
+      <view class="controls" v-if="controlsVisible">
+        <view v-for="btn in btns" :key="btn.action">
+          <u-button
+            type="primary"
+            size="mini"
+            shape="circle"
+            @click="handleIconClick(btn.action)"
+            customStyle="background: transparent; border: none; padding: 0;"
+          >
+            <u-icon
+              v-if="btn.action == 'play'"
+              :name="isPlaying ? 'pause' : 'play-right-fill'"
+              size="30"
+            ></u-icon>
+            <u-icon v-else :name="btn.icon" size="30"></u-icon>
+          </u-button>
+        </view>
+      </view>
+
+      <view class="countdown" v-if="showCountdown">
+        <text class="countdown-text">{{ countdownValue }}</text>
       </view>
     </view>
-
-    <view class="countdown" v-if="showCountdown">
-      <text class="countdown-text">{{ countdownValue }}</text>
-    </view>
-
-    <u-popup v-model="showPopup">
-			<view>出淤泥而不染，濯清涟而不妖</view>
-		</u-popup>
+    <u-popup
+      v-model="showPopup"
+      mode="bottom"
+      mask-close-able
+      length="10%"
+      border-radius="14"
+    >
+      <view style="padding: 20px; width: 80vw">
+        <view
+          style="
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 10px;
+          "
+        >
+          <text>字体大小</text>
+          <u-button
+            type="primary"
+            size="mini"
+            shape="circle"
+            @click="
+              settingsStore.setFontSize(
+                Math.max(12, settingsStore.fontSize - 1)
+              )
+            "
+          >
+            <u-icon name="minus" size="30"></u-icon>
+          </u-button>
+          <text style="font-size: 16px">{{ settingsStore.fontSize }}</text>
+          <!-- 直接显示store中的值 -->
+          <u-button
+            type="primary"
+            size="mini"
+            shape="circle"
+            @click="
+              settingsStore.setFontSize(
+                Math.min(72, settingsStore.fontSize + 1)
+              )
+            "
+          >
+            <u-icon name="plus" size="30"></u-icon>
+          </u-button>
+        </view>
+      </view>
+    </u-popup>
   </view>
 </template>
 
@@ -44,6 +89,7 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useScriptStore } from '@/stores/script'
 import { useSettingsStore } from '@/stores/settings'
+import { btns } from './tool.js'
 
 export default {
   setup() {
@@ -55,9 +101,9 @@ export default {
     const showCountdown = ref(false)
     const countdownValue = ref(3)
     const showPopup = ref(false)
-    const displayReadingIndicator = ref(settingsStore.displayReadingIndicatorBoxes)
+
     const fontSize = ref(settingsStore.fontSize)
-    const scrollSpeed = ref(settingsStore.scrollSpeed)
+    const scrollSpeed = computed(() => settingsStore.scrollSpeed) // 改为计算属性
 
     let scrollInterval = null
     const containerStyle = computed(() => ({
@@ -93,7 +139,7 @@ export default {
     const startAutoScroll = () => {
       isPlaying.value = true
       scrollInterval = setInterval(() => {
-        scrollTop.value += scrollSpeed.value
+        scrollTop.value += settingsStore.scrollSpeed * 0.2 // 直接使用store中的值
       }, 50)
     }
 
@@ -131,20 +177,22 @@ export default {
         case 'minus':
           break
         case 'play':
+          togglePlayPause()
           break
         case 'plus':
-          scrollSpeed.value += 0.1
+          settingsStore.setScrollSpeed(settingsStore.scrollSpeed + 0.1) // 直接修改store
           break
         case 'minus':
-          scrollSpeed.value -= 0.1
+          settingsStore.setScrollSpeed(settingsStore.scrollSpeed - 0.1) // 直接修改store
           break
         case 'font':
-        showPopup.value = true
+          showPopup.value = true
+          settingsStore.setFontSize()
           break
         case 'setting':
-        uni.navigateTo({
-        url: '/pages/settings/settings'
-      })
+          uni.navigateTo({
+            url: '/pages/settings/settings'
+          })
           break
       }
     }
@@ -175,11 +223,6 @@ export default {
       }
     })
 
-    const indicatorStyle = computed(() => ({
-      height: `${settingsStore.readingIndicatorBoxesHeight}rpx`,
-      opacity: displayReadingIndicator.value ? 1 : 0
-    }))
-
     return {
       scriptText: scriptStore.text,
       isPlaying,
@@ -196,13 +239,14 @@ export default {
       onFontSizeChange,
       onSpeedChange,
       handleIconClick,
-      btns
+      btns,
+      showPopup
     }
   }
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .prompter-screen {
   position: relative;
   width: 100vw;
@@ -219,22 +263,6 @@ export default {
   height: 100%;
   padding: 32rpx;
 }
-
-.reading-indicator {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  transform: translateY(-50%);
-  pointer-events: none;
-}
-
-.indicator-box {
-  width: 100%;
-  height: 100rpx;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-}
-
 .controls {
   background: rgba(134, 133, 133);
   position: absolute;
@@ -256,17 +284,6 @@ export default {
   background: rgba(0, 0, 0, 0.5);
 }
 
-.bottom-bar {
-  position: absolute;
-  top: 30px;
-  width: 100%;
-  padding: 32rpx;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  gap: 32rpx;
-}
-
 .countdown {
   position: absolute;
   top: 50%;
@@ -277,5 +294,9 @@ export default {
 .countdown-text {
   font-size: 120rpx;
   color: #fff;
+}
+
+.u-mask {
+  background-color: rgba(0, 0, 0, 1);
 }
 </style>

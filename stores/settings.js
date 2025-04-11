@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 
 export const useSettingsStore = defineStore('settings', {
   state: () => ({
-    scrollSpeed: 15,
+    scrollSpeed: 10,
     fontSize: 32,
     alignment: 'center',
     fontFamily: 'Roboto',

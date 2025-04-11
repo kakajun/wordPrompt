@@ -14,7 +14,7 @@ export const kAvailableFonts = [
   'OpenDyslexic',
 ]
 
-export const kApplicationVersion = '0.8.0'
+export const kApplicationVersion = '0.1.0'
 
 export const kSupportedLocales = [
   ['English', 'en-US'],

@@ -3,6 +3,7 @@
     <view class="input-area">
       <textarea
         v-model="scriptText"
+        :maxlength='99999'
         :placeholder="$t('HomeScreen.TextField_hintText')"
         class="script-input"
       />
@@ -40,7 +41,7 @@
 import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useScriptStore } from '@/stores/script'
-import {kApplicationVersion} from '@/core/constants.js';
+import { kApplicationVersion } from '@/core/constants.js'
 export default {
   setup() {
     const { t } = useI18n()
@@ -69,7 +70,7 @@ export default {
         title: t('HomeScreen.BottomSheet.Text_Title'),
         editable: true,
         placeholderText: t('HomeScreen.BottomSheet.TextField_hintText'),
-        success: (res) => {
+        success: res => {
           if (res.confirm && res.content) {
             scriptStore.setTitle(res.content)
             scriptStore.saveScript()
@@ -99,7 +100,7 @@ export default {
     const showAboutDialog = () => {
       uni.showModal({
         title: t('HomeScreen.IconButton_About'),
-        content: `Tiefprompt ${kApplicationVersion}`,
+        content: `WordPrompt ${kApplicationVersion}`,
         showCancel: false
       })
     }
@@ -117,7 +118,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .home-screen {
   padding: 32rpx;
 }
@@ -128,8 +129,9 @@ export default {
 
 .script-input {
   width: 100%;
-  height: 400rpx;
+  height: 800rpx;
   border: 1px solid #ccc;
+  box-sizing: border-box;
   border-radius: 8rpx;
   padding: 16rpx;
 }

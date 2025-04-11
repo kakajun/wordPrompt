@@ -1,2 +1,2 @@
 # wordPrompt
-uniaap 编写的提示词软件
+uniapp 编写的提示词软件
