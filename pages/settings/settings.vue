@@ -35,7 +35,7 @@
           style="width: 50%"
           :value="settings.fontSize"
           :min="12"
-          :max="420"
+          :max="300"
           :step="1"
           show-value
           @change="onFontSizeChange"
@@ -118,7 +118,7 @@
           style="width: 50%"
           :value="settings.countdownDuration"
           :min="0"
-          :max="60"
+          :max="30"
           :step="1"
           show-value
           @change="onCountdownDurationChange"
@@ -132,110 +132,90 @@
   </view>
 </template>
 
-<script>
+<script setup>
 import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useSettingsStore } from '@/stores/settings'
 import { kSupportedLocales, kAvailableFonts } from '@/core/constants'
 
-export default {
-  setup() {
-    const { t, locale } = useI18n()
-    const settingsStore = useSettingsStore()
-    const settings = ref(settingsStore.$state)
-    const languages = kSupportedLocales.map(l => l[0])
-    const languagesValues = kSupportedLocales.map(l => l[1])
-    const currentLanguageIndex = computed(() => {
-      return languagesValues.findIndex(l => l === locale.value)
-    })
+const { t, locale } = useI18n()
+const settingsStore = useSettingsStore()
+const settings = ref(settingsStore.$state)
 
-    const alignments = [
-      t('SettingsScreen.DropdownAppSetting_DefaultTextAlignment_Unit.Left'),
-      t('SettingsScreen.DropdownAppSetting_DefaultTextAlignment_Unit.Center'),
-      t('SettingsScreen.DropdownAppSetting_DefaultTextAlignment_Unit.Right'),
-      t('SettingsScreen.DropdownAppSetting_DefaultTextAlignment_Unit.Justified')
-    ]
-    const alignmentValues = ['left', 'center', 'right', 'justify']
-    const currentAlignmentIndex = computed(() => {
-      return alignmentValues.findIndex(a => a === settings.value.alignment)
-    })
+// 语言相关
+const languages = kSupportedLocales.map(l => l[0])
+const languagesValues = kSupportedLocales.map(l => l[1])
+const currentLanguageIndex = computed(() =>
+  languagesValues.findIndex(l => l === locale.value)
+)
 
-    const fonts = kAvailableFonts
-    const currentFontIndex = computed(() => {
-      return fonts.findIndex(f => f === settings.value.fontFamily)
-    })
-    const currentScrollSpeedDisplay = ref(settingsStore.scrollSpeed.toFixed(1))
-    const onLanguageChange = e => {
-      const newLocale = kSupportedLocales[e.detail.value][1]
-      locale.value = newLocale
-    }
-    const onScrollSpeedChange = e => {
-      const speed = parseFloat(e.detail.value).toFixed(1)
-      settingsStore.setScrollSpeed(parseFloat(speed))
-    }
+// 对齐方式相关
+const alignments = [
+  t('SettingsScreen.DropdownAppSetting_DefaultTextAlignment_Unit.Left'),
+  t('SettingsScreen.DropdownAppSetting_DefaultTextAlignment_Unit.Center'),
+  t('SettingsScreen.DropdownAppSetting_DefaultTextAlignment_Unit.Right'),
+  t('SettingsScreen.DropdownAppSetting_DefaultTextAlignment_Unit.Justified')
+]
+const alignmentValues = ['left', 'center', 'right', 'justify']
+const currentAlignmentIndex = computed(() =>
+  alignmentValues.findIndex(a => a === settings.value.alignment)
+)
 
-    const onFontSizeChange = e => {
-      settingsStore.setFontSize(e.detail.value)
-    }
+// 字体相关
+const fonts = kAvailableFonts
+const currentFontIndex = computed(() =>
+  fonts.findIndex(f => f === settings.value.fontFamily)
+)
 
-    const onAlignmentChange = e => {
-      settingsStore.setAlignment(alignmentValues[e.detail.value])
-    }
+// 事件处理函数
+const onLanguageChange = e => {
+  const newLocale = kSupportedLocales[e.detail.value][1]
+  locale.value = newLocale
+}
 
-    const onFontChange = e => {
-      settingsStore.setFontFamily(fonts[e.detail.value])
-    }
+const onScrollSpeedChange = e => {
+  const speed = parseFloat(e.detail.value).toFixed(1)
+  settingsStore.setScrollSpeed(parseFloat(speed))
+}
 
-    const onMirroredXChange = e => {
-      settingsStore.setMirroredX(e.detail.value)
-    }
+const onFontSizeChange = e => {
+  settingsStore.setFontSize(e.detail.value)
+}
 
-    const onMirroredYChange = e => {
-      settingsStore.setMirroredY(e.detail.value)
-    }
+const onAlignmentChange = e => {
+  settingsStore.setAlignment(alignmentValues[e.detail.value])
+}
 
-    const onDisplayReadingIndicatorBoxesChange = e => {
-      settingsStore.setDisplayReadingIndicatorBoxes(e.detail.value)
-    }
+const onFontChange = e => {
+  settingsStore.setFontFamily(fonts[e.detail.value])
+}
 
-    const onReadingIndicatorBoxesHeightChange = e => {
-      settingsStore.setReadingIndicatorBoxesHeight(e.detail.value)
-    }
+const onMirroredXChange = e => {
+  settingsStore.setMirroredX(e.detail.value)
+}
 
-    const onSideMarginChange = e => {
-      settingsStore.setSideMargin(e.detail.value)
-    }
+const onMirroredYChange = e => {
+  settingsStore.setMirroredY(e.detail.value)
+}
 
-    const onCountdownDurationChange = e => {
-      settingsStore.setCountdownDuration(e.detail.value)
-    }
+const onDisplayReadingIndicatorBoxesChange = e => {
+  settingsStore.setDisplayReadingIndicatorBoxes(e.detail.value)
+}
 
-    const resetSettings = () => {
-      settingsStore.resetSettings()
-    }
+const onReadingIndicatorBoxesHeightChange = e => {
+  settingsStore.setReadingIndicatorBoxesHeight(e.detail.value)
+}
 
-    return {
-      settings,
-      languages,
-      currentLanguageIndex,
-      alignments,
-      currentAlignmentIndex,
-      fonts,
-      currentFontIndex,
-      onLanguageChange,
-      onScrollSpeedChange,
-      onFontSizeChange,
-      onAlignmentChange,
-      onFontChange,
-      onMirroredXChange,
-      onMirroredYChange,
-      onDisplayReadingIndicatorBoxesChange,
-      onReadingIndicatorBoxesHeightChange,
-      onSideMarginChange,
-      onCountdownDurationChange,
-      resetSettings
-    }
-  }
+const onSideMarginChange = e => {
+  settingsStore.setSideMargin(e.detail.value)
+}
+
+const onCountdownDurationChange = e => {
+  settingsStore.setCountdownDuration(e.detail.value)
+}
+
+const resetSettings = () => {
+  settingsStore.resetSettings()
 }
 </script>
 

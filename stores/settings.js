@@ -58,18 +58,5 @@ export const useSettingsStore = defineStore('settings', {
     resetSettings() {
       this.$reset()
     },
-
-    applySettingsFromPrompter(prompter) {
-      this.scrollSpeed = prompter.scrollSpeed
-      this.fontSize = prompter.fontSize
-      this.alignment = prompter.alignment
-      this.fontFamily = prompter.fontFamily
-      this.mirroredX = prompter.mirroredX
-      this.mirroredY = prompter.mirroredY
-      this.displayReadingIndicatorBoxes = prompter.displayReadingIndicatorBoxes
-      this.readingIndicatorBoxesHeight = prompter.readingIndicatorBoxesHeight
-      this.sideMargin = prompter.sideMargin
-      this.countdownDuration = prompter.countdownDuration
-    }
   }
 })

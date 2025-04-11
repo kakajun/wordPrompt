@@ -17,6 +17,12 @@
       "style": {
         "navigationBarTitleText": "提示词设置"
       }
+    },
+    {
+      "path": "pages/open-file/open-file",
+      "style": {
+        "navigationBarTitleText": "打开文件"
+      }
     }
   ],
   "globalStyle": {

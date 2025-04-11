@@ -3,22 +3,22 @@
     <view class="input-area">
       <textarea
         v-model="scriptText"
-        :maxlength='99999'
+        :maxlength="99999"
         :placeholder="$t('HomeScreen.TextField_hintText')"
         class="script-input"
       />
     </view>
 
-    <view class="button-group">
-      <button @tap="startPrompter" type="primary">
+    <view class="u-button-group">
+      <u-button @click="startPrompter">
         {{ $t('HomeScreen.ElevatedButton_Start') }}
-      </button>
-      <button @tap="openFile" type="primary">
+      </u-button>
+      <u-button @click="openFile">
         {{ $t('HomeScreen.ElevatedButton_Select') }}
-      </button>
-      <button @tap="showSaveDialog" type="primary">
+      </u-button>
+      <u-button @click="showSaveDialog">
         {{ $t('HomeScreen.ElevatedButton_Save') }}
-      </button>
+      </u-button>
     </view>
 
     <view class="bottom-bar">
@@ -136,7 +136,7 @@ export default {
   padding: 16rpx;
 }
 
-.button-group {
+.u-button-group {
   display: flex;
   justify-content: center;
   gap: 32rpx;
