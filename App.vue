@@ -14,21 +14,21 @@ export default {
       showHeader: true
     }
   },
-  onLaunch: function() {
+  onLaunch: function () {
     console.log('App Launch')
   },
-  onShow: function() {
+  onShow: function () {
     console.log('App Show')
   },
-  onHide: function() {
+  onHide: function () {
     console.log('App Hide')
   }
 }
 </script>
 
-<style>
+<style lang="scss">
 @import '/static/css/main.css';
-@import "./uni_modules/vk-uview-ui/index.scss";
+@import '/uni_modules/vk-uview-ui/index.scss';
 .content {
   display: flex;
   flex-direction: column;

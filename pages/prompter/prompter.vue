@@ -19,7 +19,11 @@
             size="mini"
             shape="circle"
             @click="handleIconClick(btn.action)"
-            customStyle="background: transparent; border: none; padding: 0;"
+            :customStyle="{
+              background: 'transparent',
+              border: 'none',
+              padding: 0
+            }"
           >
             <u-icon
               v-if="btn.action == 'play'"

@@ -10,7 +10,7 @@
         adjust-position
         border
         :auto-height="false"
-        height="1200"
+        height="900"
         :placeholder="$t('HomeScreen.TextField_hintText')"
         class="script-input"
       />
@@ -110,7 +110,7 @@ const showAboutDialog = () => {
 
 <style lang="scss" scoped>
 .home-screen {
-  padding: 32rpx;
+  margin: 32rpx;
 }
 
 .input-area {
@@ -120,6 +120,7 @@ const showAboutDialog = () => {
 .script-input {
   width: 100%;
   padding: 16rpx;
+  box-sizing: border-box;
 }
 
 .u-button-group {

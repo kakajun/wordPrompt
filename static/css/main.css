@@ -16,7 +16,7 @@ page {
 }
 
 /* 字体定义 */
-@font-face {
+/* @font-face {
   font-family: 'Roboto';
   src: url('/static/fonts/Roboto-VariableFont_wdth,wght.ttf');
 }
@@ -34,4 +34,4 @@ page {
 @font-face {
   font-family: 'OpenDyslexic';
   src: url('/static/fonts/OpenDyslexic-Regular.otf');
-}
+} */
