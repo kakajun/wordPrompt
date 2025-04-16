@@ -43,82 +43,7 @@
         </view>
       </view>
     </view>
-    <u-popup
-      v-model="showPopup"
-      mode="bottom"
-      mask-close-able
-      length="25%"
-      border-radius="14"
-    >
-      <view style="padding: 20px; width: 80vw">
-        <view class="font-size-buttons">
-          <text class="draw-text-width">字体大小</text>
-          <u-button
-            type="primary"
-            size="mini"
-            shape="circle"
-            @click="setFontSize('minus')"
-          >
-            <u-icon name="minus" size="30"></u-icon>
-          </u-button>
-          <text style="font-size: 16px">{{ fontSize }}</text>
-
-          <u-button
-            type="primary"
-            size="mini"
-            shape="circle"
-            @click="setFontSize('plus')"
-          >
-            <u-icon name="plus" size="30"></u-icon>
-          </u-button>
-        </view>
-        <view class="font-size-buttons">
-          <text class="draw-text-width">与边缘的宽度</text>
-          <u-button
-            type="primary"
-            size="mini"
-            shape="circle"
-            @click="setsideMargin('minus')"
-          >
-            <u-icon name="minus" size="30"></u-icon>
-          </u-button>
-          <text style="font-size: 16px">{{ settingsStore.sideMargin }}</text>
-
-          <u-button
-            type="primary"
-            size="mini"
-            shape="circle"
-            @click="setsideMargin('plus')"
-          >
-            <u-icon name="plus" size="30"></u-icon>
-          </u-button>
-        </view>
-
-        <view class="font-size-buttons">
-          <text class="draw-text-width">提词器倒计时</text>
-          <u-button
-            type="primary"
-            size="mini"
-            shape="circle"
-            @click="setsideCountdownDuration('minus')"
-          >
-            <u-icon name="minus" size="30"></u-icon>
-          </u-button>
-          <text style="font-size: 16px">{{
-            settingsStore.countdownDuration
-          }}</text>
-
-          <u-button
-            type="primary"
-            size="mini"
-            shape="circle"
-            @click="setsideCountdownDuration('plus')"
-          >
-            <u-icon name="plus" size="30"></u-icon>
-          </u-button>
-        </view>
-      </view>
-    </u-popup>
+    <prompterPopup v-model:showPopup="showPopup"></prompterPopup>
   </view>
 </template>
 
@@ -127,6 +52,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useScriptStore } from '@/stores/script'
 import { useSettingsStore } from '@/stores/settings'
 import { btns } from './tool.js'
+import prompterPopup from './prompterPopup'
 
 const scriptStore = useScriptStore()
 const settingsStore = useSettingsStore()
@@ -175,23 +101,6 @@ const startScrolling = () => {
   } else {
     startAutoScroll()
   }
-}
-const setFontSize = type => {
-  type == 'plus'
-    ? settingsStore.setFontSize(fontSize.value + 2)
-    : settingsStore.setFontSize(fontSize.value - 2)
-}
-
-const setsideMargin = type => {
-  type == 'plus'
-    ? settingsStore.setSideMargin(settingsStore.sideMargin + 2)
-    : settingsStore.setSideMargin(settingsStore.sideMargin - 2)
-}
-
-const setsideCountdownDuration = type => {
-  type == 'plus'
-    ? settingsStore.setCountdownDuration(settingsStore.countdownDuration + 1)
-    : settingsStore.setCountdownDuration(settingsStore.countdownDuration - 1)
 }
 const startAutoScroll = () => {
   isPlaying.value = true
@@ -358,14 +267,7 @@ onUnmounted(() => {
 .u-mask {
   background-color: rgba(0, 0, 0, 1);
 }
-.font-size-buttons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20rpx;
-  margin-top: 30rpx;
-  color: #fff;
-}
+
 .progress-ring {
   position: absolute;
   width: 200px;
@@ -405,7 +307,5 @@ onUnmounted(() => {
     }
   }
 }
-.draw-text-width {
-  width: 250rpx;
-}
+
 </style>
