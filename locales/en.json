@@ -39,12 +39,10 @@
     "DropdownAppSetting_DefaultFontFamily": "Default Font",
     "BooleanAppSetting_DefaultFlipX": "Mirror Horizontally",
     "BooleanAppSetting_DefaultFlipY": "Mirror Vertically",
-    "BooleanAppSetting_ReadingIndicatorBoxes": "Show Reading Indicator",
-    "NumberAppSetting_ReadingIndicatorBoxes": "Reading Indicator Height",
-    "NumberAppSetting_ReadingIndicatorBoxes_Unit": "%",
     "NumberAppSetting_SideMargin": "Side Margin",
     "NumberAppSetting_SideMargin_Unit": "%",
     "NumberAppSetting_CountdownTimer": "Countdown Duration",
+    "NumberAppSetting_LineHeight": "lineHeightRate",
     "NumberAppSetting_CountdownTimer_Unit": "s",
     "ListTile_Reset": "Reset Settings"
   }

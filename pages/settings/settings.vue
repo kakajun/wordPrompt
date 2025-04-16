@@ -71,32 +71,6 @@
         <text>{{ $t('SettingsScreen.BooleanAppSetting_DefaultFlipY') }}</text>
         <switch :checked="settings.mirroredY" @change="onMirroredYChange" />
       </view>
-
-      <view class="settings-item">
-        <text>{{
-          $t('SettingsScreen.BooleanAppSetting_ReadingIndicatorBoxes')
-        }}</text>
-        <switch
-          :checked="settings.displayReadingIndicatorBoxes"
-          @change="onDisplayReadingIndicatorBoxesChange"
-        />
-      </view>
-
-      <view class="settings-item">
-        <text>{{
-          $t('SettingsScreen.NumberAppSetting_ReadingIndicatorBoxes')
-        }}</text>
-        <slider
-          style="width: 50%"
-          :value="settings.readingIndicatorBoxesHeight"
-          :min="0"
-          :max="100"
-          :step="5"
-          show-value
-          @change="onReadingIndicatorBoxesHeightChange"
-        />
-      </view>
-
       <view class="settings-item">
         <text>{{ $t('SettingsScreen.NumberAppSetting_SideMargin') }}</text>
         <slider
@@ -111,15 +85,15 @@
       </view>
 
       <view class="settings-item">
-        <text>{{ $t('SettingsScreen.NumberAppSetting_CountdownTimer') }}</text>
+        <text>{{ $t('SettingsScreen.NumberAppSetting_LineHeight') }}</text>
         <slider
           style="width: 50%"
-          :value="settings.countdownDuration"
-          :min="0"
-          :max="30"
-          :step="1"
+          :value="settings.lineHeightRate"
+          :min="1"
+          :max="2"
+          :step="0.1"
           show-value
-          @change="onCountdownDurationChange"
+          @change="onCountdownLineHeight"
         />
       </view>
 
@@ -188,7 +162,6 @@ const onFontChange = e => {
   isFontPickerVisible.value = false // 关闭选择器
 }
 
-
 // 事件处理函数
 const onLanguageChange = e => {
   const newLocale = kSupportedLocales[e.detail.value][1]
@@ -216,20 +189,12 @@ const onMirroredYChange = e => {
   settingsStore.setMirroredY(e.detail.value)
 }
 
-const onDisplayReadingIndicatorBoxesChange = e => {
-  settingsStore.setDisplayReadingIndicatorBoxes(e.detail.value)
-}
-
-const onReadingIndicatorBoxesHeightChange = e => {
-  settingsStore.setReadingIndicatorBoxesHeight(e.detail.value)
-}
-
 const onSideMarginChange = e => {
   settingsStore.setSideMargin(e.detail.value)
 }
 
-const onCountdownDurationChange = e => {
-  settingsStore.setCountdownDuration(e.detail.value)
+const onCountdownLineHeight = e => {
+  settingsStore.setCountdownLineHeight(e.detail.value)
 }
 
 const resetSettings = () => {

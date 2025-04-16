@@ -1,13 +1,14 @@
 <template>
   <view class="prompter-screen">
-    <view @tap="toggleControls">
+    <view class="safe-area-top"></view>
+    <view class="text-content" @tap="toggleControls">
       <view class="text-container" :style="containerStyle">
         <scroll-view
           :scroll-y="true"
           :scroll-top="scrollTop"
           class="scrollable-text"
           :style="textStyle"
-          style="height: calc(100vh - 63px)"
+          style="height: calc(100vh - 44px)"
         >
           <text>{{ scriptStore.text }}</text>
         </scroll-view>
@@ -77,7 +78,8 @@ const textStyle = computed(() => ({
   fontFamily: settingsStore.fontFamily,
   textAlign: settingsStore.alignment,
   padding: `0 ${settingsStore.sideMargin}%`,
-  boxSizing: 'border-box'
+  boxSizing: 'border-box',
+  lineHeight: `${fontSize.value * settingsStore.lineHeightRate}rpx`
 }))
 
 const updateProgress = count => {
@@ -182,24 +184,20 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 .prompter-screen {
+  display: flex;
   position: relative;
   width: 100vw;
-  height: calc(100vh - 44px);
+  /* 修改为使用安全区域计算 */
+  height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   background-color: #000;
 }
-
 .text-container {
-  height: 100%;
   color: #fff;
 }
 
-.scrollable-text {
-  height: 100%;
-  padding: 32rpx;
-}
 .controls {
+  position: fixed;
   background: rgba(134, 133, 133);
-  position: absolute;
   display: flex;
   align-items: center;
   justify-content: space-around; /* 添加这行使图标均匀分布 */
@@ -223,7 +221,6 @@ onUnmounted(() => {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
   .countdown-container {
     position: relative;
     width: 200px;
@@ -248,7 +245,6 @@ onUnmounted(() => {
     align-items: center;
     line-height: 160px; /* 确保垂直居中 */
   }
-
   .progress-ring,
   .progress-background {
     position: absolute;
@@ -258,7 +254,6 @@ onUnmounted(() => {
     height: 100%;
   }
 }
-
 .countdown-text {
   font-size: 120rpx;
   color: #fff;
@@ -267,7 +262,6 @@ onUnmounted(() => {
 .u-mask {
   background-color: rgba(0, 0, 0, 1);
 }
-
 .progress-ring {
   position: absolute;
   width: 200px;
@@ -282,7 +276,6 @@ onUnmounted(() => {
   );
   z-index: 1;
 }
-
 .progress-background {
   position: absolute;
   width: 200px;
@@ -307,5 +300,13 @@ onUnmounted(() => {
     }
   }
 }
+.safe-area-top {
+  height: env(safe-area-inset-top);
+  width: 100%;
+}
 
+.safe-area-bottom {
+  height: env(safe-area-inset-bottom);
+  width: 100%;
+}
 </style>

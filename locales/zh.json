@@ -39,12 +39,10 @@
     "DropdownAppSetting_DefaultFontFamily": "默认字体",
     "BooleanAppSetting_DefaultFlipX": "水平镜像",
     "BooleanAppSetting_DefaultFlipY": "垂直镜像",
-    "BooleanAppSetting_ReadingIndicatorBoxes": "显示阅读指示器",
-    "NumberAppSetting_ReadingIndicatorBoxes": "阅读指示器高度",
-    "NumberAppSetting_ReadingIndicatorBoxes_Unit": "%",
     "NumberAppSetting_SideMargin": "侧边距",
     "NumberAppSetting_SideMargin_Unit": "%",
     "NumberAppSetting_CountdownTimer": "倒计时时长",
+    "NumberAppSetting_LineHeight": "行高系数",
     "NumberAppSetting_CountdownTimer_Unit": "秒",
     "ListTile_Reset": "重置设置"
   }

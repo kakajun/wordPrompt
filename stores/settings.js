@@ -8,9 +8,8 @@ export const useSettingsStore = defineStore('settings', {
     fontFamily: 'Microsoft YaHei',
     mirroredX: false,
     mirroredY: false,
-    displayReadingIndicatorBoxes: true,
-    readingIndicatorBoxesHeight: 50,
     sideMargin: 4,
+    lineHeightRate: 1.5,
     countdownDuration: 3
   }),
 
@@ -39,20 +38,16 @@ export const useSettingsStore = defineStore('settings', {
       this.mirroredY = mirrored
     },
 
-    setDisplayReadingIndicatorBoxes(display) {
-      this.displayReadingIndicatorBoxes = display
-    },
-
-    setReadingIndicatorBoxesHeight(height) {
-      this.readingIndicatorBoxesHeight = height
-    },
-
     setSideMargin(margin) {
       this.sideMargin = margin
     },
 
     setCountdownDuration(duration) {
       this.countdownDuration = duration
+    },
+
+    setCountdownLineHeight(f) {
+      this.lineHeightRate = f
     },
 
     resetSettings() {

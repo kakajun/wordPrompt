@@ -1,5 +1,10 @@
 export const btns = [
   {
+    text: '字体',
+    icon: 'edit-pen-fill',
+    action: 'font'
+  },
+  {
     text: '速度减',
     icon: 'minus',
     action: 'minus'
@@ -14,11 +19,7 @@ export const btns = [
     icon: 'plus',
     action: 'plus'
   },
-  {
-    text: '字体',
-    icon: 'edit-pen-fill',
-    action: 'font'
-  },
+
   {
     text: '设置',
     icon: 'setting',
