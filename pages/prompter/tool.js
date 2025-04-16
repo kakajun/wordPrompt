@@ -1,10 +1,5 @@
 export const btns = [
   {
-    text: '题词器',
-    icon: 'list',
-    action: 'inscriptionDevice'
-  },
-  {
     text: '速度减',
     icon: 'minus',
     action: 'minus'

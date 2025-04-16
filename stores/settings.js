@@ -10,7 +10,7 @@ export const useSettingsStore = defineStore('settings', {
     mirroredY: false,
     displayReadingIndicatorBoxes: true,
     readingIndicatorBoxesHeight: 50,
-    sideMargin: 0,
+    sideMargin: 4,
     countdownDuration: 3
   }),
 

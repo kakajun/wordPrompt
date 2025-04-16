@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
-
+import { text } from './mock'
 export const useScriptStore = defineStore('script', {
   state: () => ({
-    text: '',
+    text: text,
     title: '',
     id: null,
     createdAt: null

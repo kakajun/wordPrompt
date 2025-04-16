@@ -47,12 +47,12 @@
       v-model="showPopup"
       mode="bottom"
       mask-close-able
-      length="10%"
+      length="25%"
       border-radius="14"
     >
       <view style="padding: 20px; width: 80vw">
         <view class="font-size-buttons">
-          <text>字体大小</text>
+          <text class="draw-text-width">字体大小</text>
           <u-button
             type="primary"
             size="mini"
@@ -62,12 +62,57 @@
             <u-icon name="minus" size="30"></u-icon>
           </u-button>
           <text style="font-size: 16px">{{ fontSize }}</text>
-          <!-- 直接显示store中的值 -->
+
           <u-button
             type="primary"
             size="mini"
             shape="circle"
             @click="setFontSize('plus')"
+          >
+            <u-icon name="plus" size="30"></u-icon>
+          </u-button>
+        </view>
+        <view class="font-size-buttons">
+          <text class="draw-text-width">与边缘的宽度</text>
+          <u-button
+            type="primary"
+            size="mini"
+            shape="circle"
+            @click="setsideMargin('minus')"
+          >
+            <u-icon name="minus" size="30"></u-icon>
+          </u-button>
+          <text style="font-size: 16px">{{ settingsStore.sideMargin }}</text>
+
+          <u-button
+            type="primary"
+            size="mini"
+            shape="circle"
+            @click="setsideMargin('plus')"
+          >
+            <u-icon name="plus" size="30"></u-icon>
+          </u-button>
+        </view>
+
+        <view class="font-size-buttons">
+          <text class="draw-text-width">提词器倒计时</text>
+          <u-button
+            type="primary"
+            size="mini"
+            shape="circle"
+            @click="setsideCountdownDuration('minus')"
+          >
+            <u-icon name="minus" size="30"></u-icon>
+          </u-button>
+          <text style="font-size: 16px">{{
+            settingsStore.countdownDuration
+          }}</text>
+
+          <u-button
+            type="primary"
+            size="mini"
+            shape="circle"
+            @click="setsideCountdownDuration('plus')"
           >
             <u-icon name="plus" size="30"></u-icon>
           </u-button>
@@ -105,7 +150,8 @@ const textStyle = computed(() => ({
   fontSize: `${fontSize.value}rpx`,
   fontFamily: settingsStore.fontFamily,
   textAlign: settingsStore.alignment,
-  padding: `0 ${settingsStore.sideMargin}%`
+  padding: `0 ${settingsStore.sideMargin}%`,
+  boxSizing: 'border-box'
 }))
 
 const updateProgress = count => {
@@ -134,6 +180,18 @@ const setFontSize = type => {
   type == 'plus'
     ? settingsStore.setFontSize(fontSize.value + 2)
     : settingsStore.setFontSize(fontSize.value - 2)
+}
+
+const setsideMargin = type => {
+  type == 'plus'
+    ? settingsStore.setSideMargin(settingsStore.sideMargin + 2)
+    : settingsStore.setSideMargin(settingsStore.sideMargin - 2)
+}
+
+const setsideCountdownDuration = type => {
+  type == 'plus'
+    ? settingsStore.setCountdownDuration(settingsStore.countdownDuration + 1)
+    : settingsStore.setCountdownDuration(settingsStore.countdownDuration - 1)
 }
 const startAutoScroll = () => {
   isPlaying.value = true
@@ -304,15 +362,16 @@ onUnmounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
-  margin-top: 10px;
+  gap: 20rpx;
+  margin-top: 30rpx;
+  color: #fff;
 }
 .progress-ring {
   position: absolute;
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  --progress: 360deg; /* 添加这行定义初始值 */
+  --progress: 360deg;
   background: conic-gradient(
     #3498db 0%,
     var(--progress),
@@ -327,8 +386,26 @@ onUnmounted(() => {
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  background: #3498db;
-  opacity: 0.2;
+  background: #426983;
   z-index: 0;
+}
+::v-deep {
+  .u-drawer-bottom {
+    background-color: #534f4f;
+  }
+  .u-mask-show {
+    background-color: rgba(0, 0, 0, 0.1) !important;
+  }
+  .u-drawer__scroll-view {
+    .uni-scroll-view-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+.draw-text-width {
+  width: 250rpx;
 }
 </style>
