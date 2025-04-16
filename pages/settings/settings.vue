@@ -34,8 +34,8 @@
         <slider
           style="width: 50%"
           :value="settings.fontSize"
-          :min="12"
-          :max="300"
+          :min="20"
+          :max="100"
           :step="1"
           show-value
           @change="onFontSizeChange"
@@ -55,13 +55,11 @@
         </picker>
       </view>
 
-      <view class="settings-item">
+      <view class="settings-item" @tap="openFontPicker">
         <text>{{
           $t('SettingsScreen.DropdownAppSetting_DefaultFontFamily')
         }}</text>
-        <picker :value="currentFontIndex" :range="fonts" @change="onFontChange">
-          <text>{{ fonts[currentFontIndex] }}</text>
-        </picker>
+        <text>{{ fontName }}</text>
       </view>
 
       <view class="settings-item">
@@ -129,6 +127,15 @@
         {{ $t('SettingsScreen.ListTile_Reset') }}
       </button>
     </view>
+    <u-picker
+      mode="selector"
+      v-model="isFontPickerVisible"
+      :range="fontList"
+      range-key="name"
+      :default-selector="[currentFontIndex]"
+      @confirm="onFontChange"
+      @cancel="isFontPickerVisible = false"
+    />
   </view>
 </template>
 
@@ -136,7 +143,7 @@
 import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useSettingsStore } from '@/stores/settings'
-import { kSupportedLocales, kAvailableFonts } from '@/core/constants'
+import { kSupportedLocales, fontList } from '@/core/constants'
 
 const { t, locale } = useI18n()
 const settingsStore = useSettingsStore()
@@ -162,10 +169,25 @@ const currentAlignmentIndex = computed(() =>
 )
 
 // 字体相关
-const fonts = kAvailableFonts
+const isFontPickerVisible = ref(false) // 控制字体选择器的显示状态
+const fontObj = computed(() => {
+  const obj = fontList.find(o => o.value == settingsStore.fontFamily)
+  return obj
+})
+const fontName = computed(() => fontObj.value.name)
 const currentFontIndex = computed(() =>
-  fonts.findIndex(f => f === settings.value.fontFamily)
+  fontList.findIndex(o => o.value == settingsStore.fontFamily)
 )
+const openFontPicker = () => {
+  isFontPickerVisible.value = true
+}
+const onFontChange = e => {
+  const selectedFontIndex = e[0] // 获取选中的索引
+  const obj = fontList[selectedFontIndex]
+  settingsStore.setFontFamily(obj.value)
+  isFontPickerVisible.value = false // 关闭选择器
+}
+
 
 // 事件处理函数
 const onLanguageChange = e => {
@@ -184,10 +206,6 @@ const onFontSizeChange = e => {
 
 const onAlignmentChange = e => {
   settingsStore.setAlignment(alignmentValues[e.detail.value])
-}
-
-const onFontChange = e => {
-  settingsStore.setFontFamily(fonts[e.detail.value])
 }
 
 const onMirroredXChange = e => {

@@ -101,7 +101,6 @@ const containerStyle = computed(() => ({
 }))
 
 const fontSize = computed(() => settingsStore.fontSize)
-
 const textStyle = computed(() => ({
   fontSize: `${fontSize.value}rpx`,
   fontFamily: settingsStore.fontFamily,

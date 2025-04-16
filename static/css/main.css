@@ -10,28 +10,22 @@
 page {
   background-color: #f8f8f8;
   font-size: 16px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica,
-    Segoe UI, Arial, Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB', 'Microsoft Yahei',
-    sans-serif;
+  font-family: -apple-system, 'Helvetica Neue', Helvetica,
+    Segoe UI, Arial, Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB',
+    'Microsoft Yahei', sans-serif;
 }
-
-/* 字体定义 */
-/* @font-face {
-  font-family: 'Roboto';
-  src: url('/static/fonts/Roboto-VariableFont_wdth,wght.ttf');
-}
-
+/* 方正硬笔行书简体   @/static/fonts/方正硬笔行书简体.ttf */
 @font-face {
-  font-family: 'RobotoMono';
-  src: url('/static/fonts/RobotoMono-VariableFont_wght.ttf');
+  font-family: 'FZHardPen';
+  src: url('../fonts/方正硬笔行书简体.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
+/* 迷你简超粗圆 */
 @font-face {
-  font-family: 'RobotoSlab';
-  src: url('/static/fonts/obotoSlab-VariableFont_wght.ttf');
+  font-family: 'MiniJianChaoCuYuan';
+  src: url('../fonts/迷你简超粗圆.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
-
-@font-face {
-  font-family: 'OpenDyslexic';
-  src: url('/static/fonts/OpenDyslexic-Regular.otf');
-} */

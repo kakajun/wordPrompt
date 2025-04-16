@@ -3,9 +3,9 @@ import { defineStore } from 'pinia'
 export const useSettingsStore = defineStore('settings', {
   state: () => ({
     scrollSpeed: 10,
-    fontSize: 32,
+    fontSize: 40,
     alignment: 'center',
-    fontFamily: 'Roboto',
+    fontFamily: 'Microsoft YaHei',
     mirroredX: false,
     mirroredY: false,
     displayReadingIndicatorBoxes: true,
@@ -57,6 +57,6 @@ export const useSettingsStore = defineStore('settings', {
 
     resetSettings() {
       this.$reset()
-    },
+    }
   }
 })
