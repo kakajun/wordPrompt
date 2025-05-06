@@ -135,16 +135,15 @@ const handleIconClick = action => {
     case 'list':
       break
     case 'minus':
+      settingsStore.setScrollSpeed(settingsStore.scrollSpeed - 0.5) // 直接修改store
       break
     case 'play':
       togglePlayPause()
       break
     case 'plus':
-      settingsStore.setScrollSpeed(settingsStore.scrollSpeed + 0.1) // 直接修改store
+      settingsStore.setScrollSpeed(settingsStore.scrollSpeed + 0.5) // 直接修改store
       break
-    case 'minus':
-      settingsStore.setScrollSpeed(settingsStore.scrollSpeed - 0.1) // 直接修改store
-      break
+
     case 'font':
       showPopup.value = true
       break
@@ -290,6 +289,11 @@ onUnmounted(() => {
   }
   .u-mask-show {
     background-color: rgba(0, 0, 0, 0.1) !important;
+  }
+  .uni-scroll-view {
+    .uni-scroll-view-content {
+      padding-top: 50%;
+    }
   }
   .u-drawer__scroll-view {
     .uni-scroll-view-content {
