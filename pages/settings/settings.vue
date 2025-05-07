@@ -21,9 +21,9 @@
         <slider
           style="width: 50%"
           :value="settings.scrollSpeed"
-          :min="0.1"
-          :max="20"
-          :step="0.1"
+          :min="1"
+          :max="15"
+          :step="0.5"
           show-value
           @change="onScrollSpeedChange"
         />
