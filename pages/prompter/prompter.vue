@@ -293,6 +293,9 @@ onUnmounted(() => {
   .uni-scroll-view {
     .uni-scroll-view-content {
       padding-top: 50%;
+      uni-text {
+        padding-bottom: 50%;
+      }
     }
   }
   .u-drawer__scroll-view {
