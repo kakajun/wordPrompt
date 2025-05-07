@@ -1,0 +1,1 @@
+const a=[{name:"微软雅黑",value:"Microsoft YaHei"},{name:"宋体",value:"SimSun"},{name:"黑体",value:"SimHei"},{name:"楷体",value:"KaiTi"},{name:"仿宋",value:"FangSong"},{name:"方正硬笔行书简体",value:"方正硬笔行书简体"},{name:"迷你简超粗圆",value:"迷你简超粗圆"}],e="0.1.0",n=[["English","en-US"],["简体中文","zh-CN"]];export{n as a,a as f,e as k};
