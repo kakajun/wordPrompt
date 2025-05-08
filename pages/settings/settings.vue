@@ -96,7 +96,13 @@
           @change="onCountdownLineHeight"
         />
       </view>
-
+      <view class="settings-item">
+        <text>{{ $t('SettingsScreen.Transparent_Background') }}</text>
+        <switch
+          :checked="settings.transparentBackground"
+          @change="onTransparentBackgroundChange"
+        />
+      </view>
       <button class="reset-button" @tap="resetSettings">
         {{ $t('SettingsScreen.ListTile_Reset') }}
       </button>
@@ -183,6 +189,9 @@ const onAlignmentChange = e => {
 
 const onMirroredXChange = e => {
   settingsStore.setMirroredX(e.detail.value)
+}
+const onTransparentBackgroundChange = e => {
+  settingsStore.setTransparentBackground(e.detail.value)
 }
 
 const onMirroredYChange = e => {

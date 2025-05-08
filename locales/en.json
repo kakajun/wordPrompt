@@ -44,6 +44,7 @@
     "NumberAppSetting_CountdownTimer": "Countdown Duration",
     "NumberAppSetting_LineHeight": "lineHeightRate",
     "NumberAppSetting_CountdownTimer_Unit": "s",
-    "ListTile_Reset": "Reset Settings"
+    "ListTile_Reset": "Reset Settings",
+    "Transparent_Background": "Transparent Background"
   }
 }

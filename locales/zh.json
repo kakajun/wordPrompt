@@ -44,6 +44,7 @@
     "NumberAppSetting_CountdownTimer": "倒计时时长",
     "NumberAppSetting_LineHeight": "行高系数",
     "NumberAppSetting_CountdownTimer_Unit": "秒",
-    "ListTile_Reset": "重置设置"
+    "ListTile_Reset": "重置设置",
+     "Transparent_Background": "透明背景"
   }
 }

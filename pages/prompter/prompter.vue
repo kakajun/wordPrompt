@@ -2,13 +2,18 @@
   <view class="prompter-screen">
     <view class="safe-area-top"></view>
     <view class="text-content" @tap="toggleControls">
-      <view class="text-container" :style="containerStyle">
+      <view :style="containerStyle">
         <scroll-view
           :scroll-y="true"
           :scroll-top="scrollTop"
           class="scrollable-text"
           :style="textStyle"
           style="height: calc(100vh - 44px)"
+          @scroll="handleTouchMove"
+          @touchstart="handleTouchStart"
+          @touchend="handleTouchEnd"
+          :scroll-with-animation="false"
+          :enable-flex="true"
         >
           <text>{{ scriptStore.text }}</text>
         </scroll-view>
@@ -49,7 +54,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import { useScriptStore } from '@/stores/script'
 import { useSettingsStore } from '@/stores/settings'
 import { btns } from './tool.js'
@@ -67,6 +72,8 @@ const showPopup = ref(false)
 
 let scrollInterval = null
 const containerStyle = computed(() => ({
+  background: settingsStore.transparentBackground ? 'transparent' : '#000',
+  color: settingsStore.transparentBackground ? '#000' : '#fff',
   transform: `scaleX(${settingsStore.mirroredX ? -1 : 1}) scaleY(${
     settingsStore.mirroredY ? -1 : 1
   })`
@@ -179,6 +186,25 @@ onUnmounted(() => {
     uni.setKeepScreenOn({ keepScreenOn: false })
   }
 })
+
+const isDragging = ref(false)
+
+const handleTouchStart = e => {
+  stopScrolling()
+  isDragging.value = true
+}
+
+const handleTouchMove = e => {
+  if (isDragging.value) {
+    nextTick(function () {
+      scrollTop.value = e.detail.scrollTop
+    })
+  }
+}
+
+const handleTouchEnd = () => {
+  isDragging.value = false
+}
 </script>
 
 <style lang="scss" scoped>
@@ -188,10 +214,6 @@ onUnmounted(() => {
   width: 100vw;
   /* 修改为使用安全区域计算 */
   height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
-  background-color: #000;
-}
-.text-container {
-  color: #fff;
 }
 
 .controls {
@@ -290,7 +312,7 @@ onUnmounted(() => {
   .u-mask-show {
     background-color: rgba(0, 0, 0, 0.1) !important;
   }
-  .uni-scroll-view {
+  .scrollable-text {
     .uni-scroll-view-content {
       padding-top: 50%;
       uni-text {
@@ -315,5 +337,9 @@ onUnmounted(() => {
 .safe-area-bottom {
   height: env(safe-area-inset-bottom);
   width: 100%;
+}
+.scrollable-text {
+  touch-action: pan-y;
+  user-select: none;
 }
 </style>

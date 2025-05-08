@@ -8,6 +8,7 @@ export const useSettingsStore = defineStore('settings', {
     fontFamily: 'Microsoft YaHei',
     mirroredX: false,
     mirroredY: false,
+    transparentBackground: true,
     sideMargin: 4,
     lineHeightRate: 1.5,
     countdownDuration: 3
@@ -48,6 +49,9 @@ export const useSettingsStore = defineStore('settings', {
 
     setCountdownLineHeight(f) {
       this.lineHeightRate = f
+    },
+    setTransparentBackground(transparent) {
+      this.transparentBackground = transparent
     },
 
     resetSettings() {
