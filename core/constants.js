@@ -13,8 +13,8 @@ export const fontList = [
   { name: '黑体', value: 'SimHei' },
   { name: '楷体', value: 'KaiTi' },
   { name: '仿宋', value: 'FangSong' },
-  { name: '方正硬笔行书简体', value: '方正硬笔行书简体' },
-  { name: '迷你简超粗圆', value: '迷你简超粗圆' }
+  { name: '方正硬笔行书简体', value: 'FZHardPen' },
+  { name: '迷你简超粗圆', value: 'MiniJianChaoCuYuan' }
 ]
 
 export const kApplicationVersion = '0.1.0'
