@@ -43,14 +43,14 @@ body {
 /* 方正硬笔行书简体   @/static/fonts/方正硬笔行书简体.ttf */
 @font-face {
   font-family: 'FZHardPen';
-  src: url('static/fonts/方正硬笔行书简体.ttf') format('truetype');
+  src: url('static/fonts/FZHardPen.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 /* 迷你简超粗圆 */
 @font-face {
   font-family: 'MiniJianChaoCuYuan';
-  src: url('static/fonts/迷你简超粗圆.ttf') format('truetype');
+  src: url('static/fonts/MiniJianChaoCuYuan.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -3187,4 +3187,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+body {
+  background-color: rgba(0, 0, 0, 0);
 }
