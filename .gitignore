@@ -12,6 +12,7 @@ node_modules
 
 *.local
 unpackage\dist\dev
+unpackage\cache
 # Editor directories and files
 .idea
 *.suo

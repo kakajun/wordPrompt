@@ -1,0 +1,31 @@
+/* 全局布局样式 */
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 全局页面样式 */
+page {
+  /* background-color: #f8f8f8; */
+  font-size: 16px;
+  font-family: -apple-system, 'Helvetica Neue', Helvetica, Segoe UI, Arial,
+    Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB', 'Microsoft Yahei',
+    sans-serif;
+}
+/* 方正硬笔行书简体   @/static/fonts/方正硬笔行书简体.ttf */
+@font-face {
+  font-family: 'FZHardPen';
+  src: url('../fonts/FZHardPen.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* 迷你简超粗圆 */
+@font-face {
+  font-family: 'MiniJianChaoCuYuan';
+  src: url('../fonts/MiniJianChaoCuYuan.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
