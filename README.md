@@ -13,3 +13,7 @@ uniapp 编写的提示词软件, web 浏览时, 请切换到手机模式
 - 支持水平与垂直方向切换
 - 支持行高字体等切换
 - 加流程打包后, 自动部署 gh-pages
+
+## 项目截图
+
+<img src="https://github.com/kakajun/wordPrompt/blob/main/static/logo.png" width="300" />
