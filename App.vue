@@ -35,7 +35,4 @@ export default {
   align-items: center;
   justify-content: center;
 }
-page {
-  background-color: rgba(0, 0, 0, 0);
-}
 </style>
