@@ -331,7 +331,7 @@ const handleTouchEnd = () => {
 }
 .safe-area-top {
   height: env(safe-area-inset-top);
-  width: 100%;
+ // width: 100%;
 }
 
 .safe-area-bottom {

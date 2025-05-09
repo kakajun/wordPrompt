@@ -34,7 +34,7 @@
 }
 /* 全局页面样式 */
 body {
-  background-color: #f8f8f8;
+  /* background-color: #f8f8f8; */
   font-size: 16px;
   font-family: -apple-system, 'Helvetica Neue', Helvetica, Segoe UI, Arial,
     Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB', 'Microsoft Yahei',
@@ -50,7 +50,7 @@ body {
 /* 迷你简超粗圆 */
 @font-face {
   font-family: 'MiniJianChaoCuYuan';
-  src: url('../fonts/MiniJianChaoCuYuan.ttf') format('truetype');
+  src: url('static/fonts/迷你简超粗圆.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }

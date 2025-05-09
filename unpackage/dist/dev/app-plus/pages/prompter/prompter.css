@@ -1324,7 +1324,6 @@
 }
 .safe-area-top[data-v-be540b17] {
   height: env(safe-area-inset-top);
-  width: 100%;
 }
 .safe-area-bottom[data-v-be540b17] {
   height: env(safe-area-inset-bottom);
