@@ -17,7 +17,7 @@ export const fontList = [
   { name: '迷你简超粗圆', value: 'MiniJianChaoCuYuan' }
 ]
 
-export const kApplicationVersion = '0.1.0'
+export const kApplicationVersion = '0.1.1'
 
 export const kSupportedLocales = [
   ['English', 'en-US'],
