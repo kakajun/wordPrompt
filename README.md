@@ -16,4 +16,4 @@ uniapp 编写的提示词软件, web 浏览时, 请切换到手机模式
 
 ## 项目截图
 
-<img src="https://github.com/kakajun/wordPrompt/blob/main/static/logo.png" width="300" />
+<img src="https://github.com/kakajun/wordPrompt/blob/main/static/img/exa.png" width="500" />
