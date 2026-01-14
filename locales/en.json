@@ -5,7 +5,6 @@
     "ElevatedButton_Start": "Start",
     "ElevatedButton_Select": "Select File",
     "ElevatedButton_Save": "Save",
-    "ElevatedButton_STT": "Speech to Text",
     "ElevatedButton_AIRewrite": "AI Rewrite",
     "BottomSheet": {
       "Text_Title": "Save Script",

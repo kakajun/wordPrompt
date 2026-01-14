@@ -26,9 +26,6 @@
       <u-button @click="showSaveDialog">
         {{ $t('HomeScreen.ElevatedButton_Save') }}
       </u-button>
-      <u-button @click="startStt">
-        {{ $t('HomeScreen.ElevatedButton_STT') }}
-      </u-button>
       <u-button @click="aiRewrite">
         {{ $t('HomeScreen.ElevatedButton_AIRewrite') }}
       </u-button>
@@ -53,14 +50,10 @@ import { ref, onMounted, watch, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useScriptStore } from '@/stores/script'
 import { kApplicationVersion } from '@/core/constants.js'
-import { startRecording, stopRecording } from '@/services/audio'
-import { hasWebRecognition, startWebRecognition, stopWebRecognition, uploadStt } from '@/services/stt'
 import { rewrite } from '@/services/llm'
-import { useVoiceStore } from '@/stores/voice'
 
 const { t } = useI18n()
 const scriptStore = useScriptStore()
-const voiceStore = useVoiceStore()
 const scriptText = ref('')
 const uToast1 = ref(null)
 onMounted(() => {
@@ -119,35 +112,6 @@ const showAboutDialog = () => {
 }
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
-let recording = false
-const startStt = async () => {
-  if (hasWebRecognition()) {
-    startWebRecognition({
-      lang: voiceStore.language,
-      onPartial: txt => {},
-      onFinal: txt => {
-        scriptText.value = scriptText.value + '\n' + txt
-      },
-      onError: err => {
-        uToast1.value.show({ title: 'STT error', type: 'error' })
-      }
-    })
-    return
-  }
-  if (!recording) {
-    recording = true
-    await startRecording()
-    uToast1.value.show({ title: 'Recording...', type: 'default' })
-    setTimeout(async () => {
-      const blob = await stopRecording()
-      recording = false
-      const res = await uploadStt({ baseUrl, blob, language: voiceStore.language })
-      const txt = res.text || ''
-      scriptText.value = scriptText.value + '\n' + txt
-      uToast1.value.show({ title: 'STT done', type: 'success' })
-    }, 3000)
-  }
-}
 
 const aiRewrite = async () => {
   const r = await rewrite({ baseUrl, text: scriptText.value })
