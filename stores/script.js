@@ -5,7 +5,9 @@ export const useScriptStore = defineStore('script', {
     text: text,
     title: '',
     id: null,
-    createdAt: null
+    createdAt: null,
+    versions: [],
+    keywordsCache: []
   }),
 
   actions: {
@@ -29,6 +31,7 @@ export const useScriptStore = defineStore('script', {
 
         scripts.push(newScript)
         uni.setStorageSync('scripts', JSON.stringify(scripts))
+        this.versions.push({ text: this.text, ts: Date.now() })
         return newScript
       } catch (error) {
         console.error('Error saving script:', error)
@@ -73,6 +76,13 @@ export const useScriptStore = defineStore('script', {
         console.error('Error deleting script:', error)
         throw error
       }
+    },
+    addVersion(text) {
+      this.versions.push({ text, ts: Date.now() })
+      this.text = text
+    },
+    setKeywords(list) {
+      this.keywordsCache = list
     }
   }
 })

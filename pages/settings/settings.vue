@@ -107,6 +107,22 @@
         {{ $t('SettingsScreen.ListTile_Reset') }}
       </button>
     </view>
+    <view class="settings-list">
+      <view class="settings-item">
+        <text>{{ $t('SettingsScreen.STT_Language') }}</text>
+        <picker :value="sttLangIndex" :range="languages" @change="onSttLangChange">
+          <text>{{ languages[sttLangIndex] }}</text>
+        </picker>
+      </view>
+      <view class="settings-item">
+        <text>{{ $t('SettingsScreen.TTS_Rate') }}</text>
+        <slider style="width: 50%" :value="voiceStore.ttsRate" :min="0.5" :max="2" :step="0.1" show-value @change="onTtsRateChange" />
+      </view>
+      <view class="settings-item">
+        <text>{{ $t('SettingsScreen.SmartFollow') }}</text>
+        <switch :checked="voiceStore.smartFollow" @change="onSmartFollowChange" />
+      </view>
+    </view>
     <u-picker
       mode="selector"
       v-model="isFontPickerVisible"
@@ -124,10 +140,12 @@ import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useSettingsStore } from '@/stores/settings'
 import { kSupportedLocales, fontList } from '@/core/constants'
+import { useVoiceStore } from '@/stores/voice'
 
 const { t, locale } = useI18n()
 const settingsStore = useSettingsStore()
 const settings = ref(settingsStore.$state)
+const voiceStore = useVoiceStore()
 
 // 语言相关
 const languages = kSupportedLocales.map(l => l[0])
@@ -208,6 +226,18 @@ const onCountdownLineHeight = e => {
 
 const resetSettings = () => {
   settingsStore.resetSettings()
+}
+
+const sttLangIndex = computed(() => kSupportedLocales.map(l => l[1]).findIndex(l => l === voiceStore.language))
+const onSttLangChange = e => {
+  const newLocale = kSupportedLocales[e.detail.value][1]
+  voiceStore.setLanguage(newLocale)
+}
+const onTtsRateChange = e => {
+  voiceStore.setTtsRate(parseFloat(e.detail.value))
+}
+const onSmartFollowChange = e => {
+  voiceStore.setSmartFollow(e.detail.value)
 }
 </script>
 

@@ -5,6 +5,8 @@
     "ElevatedButton_Start": "Start",
     "ElevatedButton_Select": "Select File",
     "ElevatedButton_Save": "Save",
+    "ElevatedButton_STT": "Speech to Text",
+    "ElevatedButton_AIRewrite": "AI Rewrite",
     "BottomSheet": {
       "Text_Title": "Save Script",
       "TextField_hintText": "Enter script title",
@@ -45,6 +47,18 @@
     "NumberAppSetting_LineHeight": "lineHeightRate",
     "NumberAppSetting_CountdownTimer_Unit": "s",
     "ListTile_Reset": "Reset Settings",
-    "Transparent_Background": "Transparent Background"
+    "Transparent_Background": "Transparent Background",
+    "STT_Language": "STT Language",
+    "TTS_Rate": "TTS Rate",
+    "SmartFollow": "Smart Follow"
+  },
+  "Prompter": {
+    "VoiceControl": "Voice Control",
+    "SmartFollow": "Smart Follow"
+  },
+  "KeywordsScreen": {
+    "Generate": "Generate Keywords",
+    "SwitchToText": "Switch to Text",
+    "SwitchToKeywords": "Switch to Keywords"
   }
 }

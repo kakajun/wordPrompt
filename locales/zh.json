@@ -5,6 +5,8 @@
     "ElevatedButton_Start": "开始",
     "ElevatedButton_Select": "选择文件",
     "ElevatedButton_Save": "保存",
+    "ElevatedButton_STT": "录音转文字",
+    "ElevatedButton_AIRewrite": "AI 重写",
     "BottomSheet": {
       "Text_Title": "保存脚本",
       "TextField_hintText": "输入脚本标题",
@@ -45,6 +47,18 @@
     "NumberAppSetting_LineHeight": "行高系数",
     "NumberAppSetting_CountdownTimer_Unit": "秒",
     "ListTile_Reset": "重置设置",
-     "Transparent_Background": "透明背景"
+     "Transparent_Background": "透明背景",
+     "STT_Language": "识别语言",
+     "TTS_Rate": "语音合成语速",
+     "SmartFollow": "智能跟随"
+  },
+  "Prompter": {
+    "VoiceControl": "语音操控",
+    "SmartFollow": "智能跟随"
+  },
+  "KeywordsScreen": {
+    "Generate": "生成关键词",
+    "SwitchToText": "切换原文",
+    "SwitchToKeywords": "切换关键词"
   }
 }

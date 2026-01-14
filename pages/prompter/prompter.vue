@@ -2,6 +2,20 @@
   <view class="prompter-screen">
     <view class="safe-area-top"></view>
     <view class="text-content" @tap="toggleControls">
+      <view class="top-bar">
+        <view style="display: flex; gap: 16rpx; align-items: center">
+          <text>{{ $t('Prompter.VoiceControl') }}</text>
+          <switch
+            :checked="voiceEnabled"
+            @change="voiceStore.setEnabled($event.detail.value)"
+          />
+          <text>{{ $t('Prompter.SmartFollow') }}</text>
+          <switch
+            :checked="smartFollowEnabled"
+            @change="voiceStore.setSmartFollow($event.detail.value)"
+          />
+        </view>
+      </view>
       <view :style="containerStyle">
         <scroll-view
           :scroll-y="true"
@@ -59,9 +73,18 @@ import { useScriptStore } from '@/stores/script'
 import { useSettingsStore } from '@/stores/settings'
 import { btns } from './tool.js'
 import prompterPopup from './prompterPopup'
+import { useVoiceStore } from '@/stores/voice'
+import {
+  hasWebRecognition,
+  startWebRecognition,
+  stopWebRecognition,
+  connectStream,
+  closeStream
+} from '@/services/stt'
 
 const scriptStore = useScriptStore()
 const settingsStore = useSettingsStore()
+const voiceStore = useVoiceStore()
 
 const isPlaying = ref(false)
 const scrollTop = ref(0)
@@ -69,6 +92,8 @@ const controlsVisible = ref(true)
 const showCountdown = ref(false)
 const countdownValue = ref(3)
 const showPopup = ref(false)
+const smartFollowEnabled = computed(() => voiceStore.smartFollow)
+const voiceEnabled = computed(() => voiceStore.enabled)
 
 let scrollInterval = null
 const containerStyle = computed(() => ({
@@ -80,6 +105,9 @@ const containerStyle = computed(() => ({
 }))
 
 const fontSize = computed(() => settingsStore.fontSize)
+const computedSpeed = computed(
+  () => settingsStore.scrollSpeed + voiceStore.speedAdjust
+)
 const textStyle = computed(() => ({
   fontSize: `${fontSize.value}rpx`,
   fontFamily: settingsStore.fontFamily,
@@ -114,7 +142,7 @@ const startScrolling = () => {
 const startAutoScroll = () => {
   isPlaying.value = true
   scrollInterval = setInterval(() => {
-    scrollTop.value += settingsStore.scrollSpeed * 0.2 // 直接使用store中的值
+    scrollTop.value += computedSpeed.value * 0.2
   }, 50)
 }
 
@@ -142,13 +170,13 @@ const handleIconClick = action => {
     case 'list':
       break
     case 'minus':
-      settingsStore.setScrollSpeed(settingsStore.scrollSpeed - 0.5) // 直接修改store
+      settingsStore.setScrollSpeed(settingsStore.scrollSpeed - 0.5)
       break
     case 'play':
       togglePlayPause()
       break
     case 'plus':
-      settingsStore.setScrollSpeed(settingsStore.scrollSpeed + 0.5) // 直接修改store
+      settingsStore.setScrollSpeed(settingsStore.scrollSpeed + 0.5)
       break
 
     case 'font':
@@ -173,6 +201,23 @@ onMounted(() => {
   } else if (uni.setKeepScreenOn) {
     uni.setKeepScreenOn({ keepScreenOn: true })
   }
+  if (voiceEnabled.value) {
+    if (hasWebRecognition()) {
+      startWebRecognition({
+        lang: voiceStore.language,
+        onPartial: txt => onPartialText(txt),
+        onFinal: txt => onFinalText(txt),
+        onError: () => {}
+      })
+    } else {
+      connectStream({
+        baseUrl: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000',
+        onPartial: txt => onPartialText(txt),
+        onFinal: txt => onFinalText(txt),
+        onError: () => {}
+      })
+    }
+  }
 })
 
 onUnmounted(() => {
@@ -184,6 +229,11 @@ onUnmounted(() => {
     }
   } else if (uni.setKeepScreenOn) {
     uni.setKeepScreenOn({ keepScreenOn: false })
+  }
+  if (hasWebRecognition()) {
+    stopWebRecognition()
+  } else {
+    closeStream()
   }
 })
 
@@ -204,6 +254,26 @@ const handleTouchMove = e => {
 
 const handleTouchEnd = () => {
   isDragging.value = false
+}
+
+const onPartialText = txt => {
+  voiceStore.setPartial(txt)
+  if (!smartFollowEnabled.value) return
+  const s = scriptStore.text || ''
+  const t = txt.trim()
+  if (!t) return
+  const idx = s.indexOf(t)
+  if (idx >= 0) {
+    voiceStore.setAnchor(idx)
+    voiceStore.setSpeedAdjust(0.5)
+  } else {
+    voiceStore.setSpeedAdjust(-0.5)
+  }
+}
+
+const onFinalText = txt => {
+  if (!smartFollowEnabled.value) return
+  voiceStore.setSpeedAdjust(0)
 }
 </script>
 
@@ -331,7 +401,7 @@ const handleTouchEnd = () => {
 }
 .safe-area-top {
   height: env(safe-area-inset-top);
- // width: 100%;
+  // width: 100%;
 }
 
 .safe-area-bottom {

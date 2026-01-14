@@ -23,6 +23,12 @@
       "style": {
         "navigationBarTitleText": "选择提示词"
       }
+    },
+    {
+      "path": "pages/keywords/keywords",
+      "style": {
+        "navigationBarTitleText": "关键词"
+      }
     }
   ],
   "globalStyle": {
