@@ -17,18 +17,20 @@ app.add_middleware(
 
 @app.on_event("startup")
 async def on_startup():
-    host = os.getenv("HOST", "0.0.0.0")
+    host = os.getenv("HOST", "127.0.0.1")
     port = os.getenv("PORT", "8000")
     print(f"Backend running at http://{host}:{port}")
 
 
 class STTResponse(BaseModel):
+    """语音转文字接口的返回结果结构。"""
     text: str
     words: Optional[List[dict]] = None
     confidence: Optional[float] = None
 
 
 class RewriteRequest(BaseModel):
+    """AI 重写接口的请求体。"""
     text: str
     tone: Optional[str] = None
     style: Optional[str] = None
@@ -36,39 +38,32 @@ class RewriteRequest(BaseModel):
 
 
 class RewriteResponse(BaseModel):
+    """AI 重写接口的返回结果。"""
     rewrittenText: str
     notes: Optional[str] = None
 
 
 class KeywordsRequest(BaseModel):
+    """关键词提取接口的请求体。"""
     text: str
     density: Optional[str] = "med"
     mode: Optional[str] = "topics"
 
 
 class KeywordsResponse(BaseModel):
+    """关键词提取接口的返回结果。"""
     keywords: List[str]
 
 
 @app.get("/health")
 async def health():
+    """健康检查接口，用于确认服务是否存活。"""
     return {"status": "ok"}
-
-
-@app.post("/api/stt", response_model=STTResponse)
-async def stt(
-    audio: UploadFile = File(...),
-    language: Optional[str] = Form(None),
-    sampleRate: Optional[int] = Form(None),
-):
-    data = await audio.read()
-    if not data:
-        return STTResponse(text="", confidence=0.0)
-    return STTResponse(text="语音识别结果", confidence=0.5)
 
 
 @app.websocket("/api/stt/stream")
 async def stt_stream(ws: WebSocket):
+    """流式语音识别接口，通过 WebSocket 持续接收音频并返回部分结果。"""
     await ws.accept()
     try:
         while True:
@@ -81,6 +76,7 @@ async def stt_stream(ws: WebSocket):
 
 @app.post("/api/llm/rewrite", response_model=RewriteResponse)
 async def llm_rewrite(req: RewriteRequest):
+    """调用大模型对原稿进行重写或润色，返回新的稿件文本。"""
     text = req.text.strip()
     if not text:
         return RewriteResponse(rewrittenText="")
@@ -90,6 +86,7 @@ async def llm_rewrite(req: RewriteRequest):
 
 @app.post("/api/llm/keywords", response_model=KeywordsResponse)
 async def llm_keywords(req: KeywordsRequest):
+    """从稿件文本中抽取关键词，目前为简单本地实现。"""
     text = req.text.strip()
     if not text:
         return KeywordsResponse(keywords=[])
@@ -109,17 +106,20 @@ async def llm_keywords(req: KeywordsRequest):
 
 
 class AlignRequest(BaseModel):
+    """文本对齐接口的请求体。"""
     script: str
     speechSegment: str
 
 
 class AlignResponse(BaseModel):
+    """文本对齐接口的返回结果，给出匹配位置和得分。"""
     scriptIndex: int
     score: float
 
 
 @app.post("/api/align", response_model=AlignResponse)
 async def align(req: AlignRequest):
+    """根据语音转写片段在脚本中查找匹配位置，用于智能跟随。"""
     idx = req.script.find(req.speechSegment.strip())
     score = 1.0 if idx >= 0 else 0.0
     return AlignResponse(scriptIndex=idx if idx >= 0 else 0, score=score)
