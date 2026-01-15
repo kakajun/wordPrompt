@@ -15,6 +15,13 @@ app.add_middleware(
 )
 
 
+@app.on_event("startup")
+async def on_startup():
+    host = os.getenv("HOST", "0.0.0.0")
+    port = os.getenv("PORT", "8000")
+    print(f"Backend running at http://{host}:{port}")
+
+
 class STTResponse(BaseModel):
     text: str
     words: Optional[List[dict]] = None
@@ -116,4 +123,3 @@ async def align(req: AlignRequest):
     idx = req.script.find(req.speechSegment.strip())
     score = 1.0 if idx >= 0 else 0.0
     return AlignResponse(scriptIndex=idx if idx >= 0 else 0, score=score)
-

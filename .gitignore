@@ -11,8 +11,7 @@ node_modules
 .DS_Store
 
 *.local
-unpackage\dist\dev
-unpackage\cache
+unpackage
 # Editor directories and files
 .idea
 *.suo
@@ -20,3 +19,5 @@ unpackage\cache
 *.njsproj
 *.sln
 *.sw?
+
+__pycache__
