@@ -2,8 +2,9 @@ from typing import List
 from sqlalchemy.orm import Session
 from datetime import datetime
 from entity.models import User as UserModel
-from dto.schemas import User, UserCreate
+from dto.schemas import User, UserCreate, UserRegister, UserLogin, AuthResponse
 from common.vo import DataResponseModel, CrudResponseModel
+from utils.auth_util import hash_password, verify_password, make_token
 
 
 class UserService:
@@ -76,3 +77,33 @@ class UserService:
         except Exception as e:
             session.rollback()
             return CrudResponseModel(is_success=False, message=f"删除用户失败: {str(e)}", result=None)
+
+    @staticmethod
+    def register(user: UserRegister, session: Session) -> DataResponseModel[AuthResponse]:
+        try:
+            exists = session.query(UserModel).filter(UserModel.name == user.name).first()
+            if exists is not None:
+                return DataResponseModel[AuthResponse](code=400, msg="用户名已存在", success=False, data=None)
+            salt, hashed = hash_password(user.password)
+            db_user = UserModel(name=user.name, fullname=user.fullname, password_salt=salt, password_hash=hashed)
+            session.add(db_user)
+            session.commit()
+            session.refresh(db_user)
+            token = make_token(db_user.name)
+            return DataResponseModel[AuthResponse](data=AuthResponse(token=token))
+        except Exception as e:
+            session.rollback()
+            return DataResponseModel[AuthResponse](code=500, msg=f"注册失败: {str(e)}", success=False, data=None)
+
+    @staticmethod
+    def login(user: UserLogin, session: Session) -> DataResponseModel[AuthResponse]:
+        try:
+            db_user = session.query(UserModel).filter(UserModel.name == user.name).first()
+            if db_user is None or db_user.password_salt is None or db_user.password_hash is None:
+                return DataResponseModel[AuthResponse](code=401, msg="用户名或密码错误", success=False, data=None)
+            if not verify_password(user.password, db_user.password_salt, db_user.password_hash):
+                return DataResponseModel[AuthResponse](code=401, msg="用户名或密码错误", success=False, data=None)
+            token = make_token(db_user.name)
+            return DataResponseModel[AuthResponse](data=AuthResponse(token=token))
+        except Exception as e:
+            return DataResponseModel[AuthResponse](code=500, msg=f"登录失败: {str(e)}", success=False, data=None)
